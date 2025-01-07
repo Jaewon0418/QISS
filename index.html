@@ -157,7 +157,7 @@
 
         async function askGPT() {
     const searchTerm = document.getElementById('search-bar').value;
-    const apiKey = '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'; // 올바른 API 키 입력
+    const apiKey = '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'; // 올바른 API 키 입력
 
     if (!searchTerm) {
         alert('질문을 입력하세요.');
@@ -175,7 +175,7 @@
                 'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                model: 'gpt-4.0',
+                model: 'gpt-4', // 'gpt-4.0' 대신 'gpt-4'
                 messages: [{ role: 'user', content: searchTerm }],
                 max_tokens: 100,
                 temperature: 0.7
@@ -192,6 +192,7 @@
         responseContainer.textContent = '오류 발생: ' + error.message;
     }
 }
+
 
 
         const timeDisplay = document.getElementById('time-display');
