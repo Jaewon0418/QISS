@@ -55,21 +55,106 @@
             text-align: left;
             width: 80%;
         }
+
+        #current-time {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        #credit {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        #version {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        #empty {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
     <header>
         <div><a href="https://qpi-labels.github.io/main/"><img src="https://i.ibb.co/THk34pC/001-12.webp" alt="QISS Logo"></a></div>
-        <input type="text" id="search-bar" placeholder="질문을 입력하세요">
+        <input type="text" id="search-bar" placeholder="검색어를 입력하세요">
         <div id="search-buttons">
-            <button class="search-button" onclick="askGPT()">GPT 응답</button>
+            <button class="search-button" onclick="searchInGoogle()">Google 검색결과</button>
+            <button class="search-button" onclick="searchInNaver()">Naver 검색결과</button>
+            <button class="search-button" onclick="searchInDBpia()">DBpia 검색결과</button>
+            <button class="search-button" onclick="searchInGs()">Google scholar 검색결과</button>
+            <button class="search-button" onclick="searchInRnE()">R&E 지원센터 검색결과</button>
+            <button class="search-button" onclick="searchInRISS()">RISS 검색결과</button>
+            <button class="search-button" onclick="askGPT()">GPT</button>
         </div>
-        <div id="response-container">
-            <p id="gpt-response">GPT 응답이 여기에 표시됩니다.</p>
+
+        <div id="empty">ㅤ</div>
+        <div id="empty">ㅤ</div>
+        <div id="credit">- 편의정보(베타) -</div>
+
+        <div id="search-buttons">
+            <button class="search-button" onclick="classroom()">클래스룸</button>
+            <button class="search-button" onclick="cophygue()">꽃피게 위키독스</button>
         </div>
+
+        <div id="current-time">현재 시간: <span id="time-display"></span></div>
+
+        <div id="credit">Quarter-Pi Integrated Search System | 2024 Quarter-Pi</div>
+        <div id="version"><a href="https://github.com/Jaewon0418/QISS/releases">V 0.1.4 | build240507004</a></div>
+        <div id="empty">ㅤ</div>
+        <div id="empty">ㅤ</div>
     </header>
 
+    <div id="response-container">
+        <p id="gpt-response">GPT 응답이 여기에 표시됩니다.</p>
+    </div>
+
     <script>
+        function searchInGoogle() {
+            const searchTerm = document.getElementById('search-bar').value;
+            window.open('https://www.google.com/search?q=' + encodeURIComponent(searchTerm));
+        }
+
+        function searchInNaver() {
+            const searchTerm = document.getElementById('search-bar').value;
+            window.open('https://search.naver.com/search.naver?where=nexearch&sm=tab_hty&query=' + encodeURIComponent(searchTerm));
+        }
+
+        function searchInDBpia() {
+            const searchTerm = document.getElementById('search-bar').value;
+            window.open('https://www.dbpia.co.kr/search/topSearch?searchOption=all&query=' + encodeURIComponent(searchTerm));
+        }
+
+        function searchInGs() {
+            const searchTerm = document.getElementById('search-bar').value;
+            window.open('https://scholar.google.com/scholar?hl=ko&as_sdt=0%2C5&q=' + encodeURIComponent(searchTerm));
+        }
+
+        function searchInRnE() {
+            const searchTerm = document.getElementById('search-bar').value;
+            window.open('http://www.rne.or.kr/gnuboard5/bbs/board.php?bo_table=teen_search&sca=&sop=and&sfl=wr_10%7C%7Cwr_name%7C%7Cwr_content&stx=' + encodeURIComponent(searchTerm));
+        }
+
+        function searchInRISS() {
+            const searchTerm = document.getElementById('search-bar').value;
+            window.open('https://www.riss.kr/search/Search.do?colName=all&isDetailSearch=N&searchGubun=true&oldQuery=&sflag=1&fsearchMethod=search&isFDetailSearch=N&searchQuery=1&kbid=&pageNumber=1&query=' + encodeURIComponent(searchTerm));
+        }
+
+        function classroom() {
+            window.open('https://classroom.google.com/');
+        }
+
+        function cophygue() {
+            window.open('https://wikidocs.net/book/4493');
+        }
+
         async function askGPT() {
             const searchTerm = document.getElementById('search-bar').value;
             const apiKey = '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'; // OpenAI API 키를 여기에 입력하세요.
@@ -107,6 +192,20 @@
                 responseContainer.textContent = '오류 발생: ' + error.message;
             }
         }
+
+        const timeDisplay = document.getElementById('time-display');
+
+        setInterval(() => {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1; // Months are zero-indexed
+            const day = now.getDate();
+            const hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+
+            timeDisplay.textContent = `${year}년 ${month}월 ${day}일 ${hours}:${minutes}:${seconds}`;
+        }, 1000);
     </script>
 </body>
 </html>
